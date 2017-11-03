@@ -1,0 +1,90 @@
+<html>
+	<head>
+		<title>Hemming</title>
+		<meta charset="utf-8"></meta>
+		<script>
+			function code()
+			{
+				var x = document.getElementById("inp_mes").value;
+				var arr = x.split('');
+				for(i = 0;i < 4;i++)
+					arr[i] = arr[i] * 1;
+				arr[4] = (arr[0]+arr[1]+arr[3]) % 2;
+				arr[5] = (arr[1]+arr[2]+arr[3]) % 2;
+				arr[6] = (arr[0]+arr[2]+arr[3]) % 2;
+				document.getElementById("coded_mes").value = arr.join("");
+			}
+			function decode()
+			{
+				var x = document.getElementById("coded_mes").value;
+				var arr = x.split('');
+				var str = "No error";
+				for(i = 0;i < 7;i++)
+					arr[i] = arr[i] * 1;
+				var errors = new Array(7);
+				for(i = 0;i < 7;i++)
+					errors[i] = true;
+				
+				if (arr[4] != (arr[0]+arr[1]+arr[3]) % 2)
+					errors[4] = false;
+				if (arr[5] != (arr[1]+arr[2]+arr[3]) % 2)
+					errors[5] = false;
+				if (arr[6] != (arr[0]+arr[2]+arr[3]) % 2)
+					errors[6] = false;
+					
+				if (((arr[0]+arr[1]+arr[3])%2 !=arr[4]) && ((arr[0]+arr[2]+arr[3])%2 !=arr[6]) && errors[5])
+					{
+					arr[0] = (arr[0]+1) % 2;
+					str = "Error in the 1 bit"
+					}
+					else
+				if (((arr[0]+arr[1]+arr[3])%2 !=arr[4]) && ((arr[1]+arr[2]+arr[3])%2 !=arr[5]) && errors[6])
+					{
+					arr[1] = (arr[1]+1) % 2;
+					str = "Error in the 2 bit"
+					}
+					else
+				if (((arr[0]+arr[2]+arr[3])%2 !=arr[6]) && ((arr[1]+arr[2]+arr[3])%2 !=arr[5]) && errors[4])
+				{
+					arr[2] = (arr[2]+1) % 2;
+					str = "Error in the 3 bit"
+					}
+					else
+				if (((!errors[4]) && (!errors[5])) && (!errors[6]))
+				{
+					arr[3] = (arr[3]+1) % 2;
+					str = "Error in the 4 bit"
+					}
+					else
+				if (!errors[4])
+				{
+					arr[4]=(arr[4]+1)%2;
+					str = "Error in the 5 bit"
+					}
+					else
+				if (!errors[5])
+				{
+					arr[5]=(arr[5]+1)%2;
+					str = "Error in the 6 bit"
+					}
+					else
+				if (!errors[6])
+				{
+					arr[6]=(arr[6]+1)%2;
+					str = "Error in the 7 bit"
+					}
+				document.getElementById("decoded_mes").value = arr.join("");
+				document.getElementById("errorPlaceHolder").innerHTML = str;
+			}
+		</script>
+	</head>
+	<body>
+		<h1>Hemming code</h1>
+		<input maxlength = '4' id = "inp_mes" type = "text" /> Input message <br />
+		<input type = "button" value = "Code" onClick = "code()" /> <br /> <br />
+		<input maxlength = '7' id = "coded_mes" type = "text" /> Coded message<br />
+		<input type = "button" value = "Decode" onClick = "decode()" /> <br /> <br />
+		<input maxlength = '7' id = "decoded_mes" type = "text" /> Decoded message<br />
+		<span id = "errorPlaceHolder"> </span>
+	</body>
+</html>
