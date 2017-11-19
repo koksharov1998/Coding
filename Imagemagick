@@ -1,0 +1,31 @@
+#!/bin/bash
+if  [ -z "$1" ]; then
+	echo 'Try use "-h" or "--help" after command "./annotate.sh".'
+	exit
+fi
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+	echo 'Using: ./annotate.sh [parent directory] [text] [new directory] ?[font] ?[pointsize].'
+	echo 'The script adds text to jpg-files from the parent directory and saves them in a new directory.'
+	echo ''
+	echo 'Also you can choose font and pointsize.'
+	exit
+fi
+if ! [ -d "$1" ]; then
+	echo 'No directory. Try again.'
+	exit
+fi
+cp -r "$1" "$3"
+cd "$3"
+var1=courier
+var2=30
+if [ -n "$4" ]; then
+	var1="$4"
+fi
+if [ -n "$5" ]; then
+	var2="$5"
+fi
+for file in *.jpg; do
+convert -gravity South-East -font $var1 -pointsize $var2 -annotate +10+10 "$2" "$file" "$file"
+str=`echo "$file" | sed 's/.jpg/_annotated.jpg/'`
+mv "$file" "$str"; done
+cd ..
