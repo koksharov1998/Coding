@@ -6,7 +6,7 @@ fi
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
 	echo 'Using: ./annotate.sh [parent directory] [text] [new directory] ?[font] ?[pointsize].'
 	echo 'The script adds text to jpg-files from the parent directory and saves them in a new directory.'
-	echo ''
+	echo 'If the arguments contain spaces, enclose them in double quotes.'
 	echo 'Also you can choose font and pointsize.'
 	exit
 fi
